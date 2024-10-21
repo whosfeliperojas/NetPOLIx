@@ -1,0 +1,90 @@
+import java.util.List;
+
+public class Gerente {
+
+    private Long id;
+    private String nombre;
+    private String email;
+    private String contrasena;
+
+    // Constructor
+    public Gerente(Long id, String nombre, String email, String contrasena) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.contrasena = contrasena;
+    }
+
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    // Método para agregar un nuevo contenido
+    public void agregarContenido(ContenidoDAO contenidoDAO, Contenido contenido) {
+        contenidoDAO.actualizarContenido(contenido); // Método para persistir el contenido
+    }
+
+    // Método para quitar contenido
+    public void eliminarContenido(ContenidoDAO contenidoDAO, Long idContenido) {
+        contenidoDAO.eliminarContenido(idContenido);  // Método para eliminar el contenido
+    }
+
+    // Método para editar un contenido
+    public void editarContenido(ContenidoDAO contenidoDAO, Long idContenido, Contenido nuevoContenido) {
+        Contenido contenidoExistente = contenidoDAO.obtenerContenidoPorId(idContenido);
+        if (contenidoExistente != null) {
+            contenidoExistente.setTitulo(nuevoContenido.getTitulo());
+            contenidoExistente.setGenero(nuevoContenido.getGenero());
+            contenidoExistente.setAnio(nuevoContenido.getAnio());
+            contenidoExistente.setCalificacionPromedio(nuevoContenido.getCalificacionPromedio());
+            contenidoDAO.actualizarContenido(contenidoExistente);  // Se actualiza el contenido existente
+        }
+    }
+
+    // Método para ajustar precios de alquiler
+    public void ajustarPrecio(ContenidoAlquiladoDAO contenidoAlquiladoDAO, Long idContenido, double nuevoPrecio) {
+        ContenidoAlquilado contenidoAlquilado = contenidoAlquiladoDAO.obtenerContenidoAlquiladoPorId(idContenido);
+        if (contenidoAlquilado != null) {
+            contenidoAlquilado.setPrecio(nuevoPrecio);
+            contenidoAlquiladoDAO.actualizarContenidoAlquilado(contenidoAlquilado);  // Se actualiza el precio
+        }
+    }
+
+    // Método para ajustar plazo de alquiler
+    public void ajustarPlazo(ContenidoAlquiladoDAO contenidoAlquiladoDAO, Long idContenido, int nuevoPlazo) {
+        ContenidoAlquilado contenidoAlquilado = contenidoAlquiladoDAO.obtenerContenidoAlquiladoPorId(idContenido);
+        if (contenidoAlquilado != null) {
+            contenidoAlquilado.setPlazoDias(nuevoPlazo);
+            contenidoAlquiladoDAO.actualizarContenidoAlquilado(contenidoAlquilado);  // Se actualiza el plazo
+        }
+    }
+}
