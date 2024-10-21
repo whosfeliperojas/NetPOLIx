@@ -27,6 +27,7 @@ public class ConfiguracionSeguridad {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuario/**").permitAll() // Permitir acceso sin autenticación a las rutas de usuario
                         .requestMatchers("/api/contenido/buscar").permitAll()
+                        .requestMatchers("/api/carrito/**").permitAll()
                         .anyRequest().authenticated() // Requiere autenticación para otras rutas
                 )
                 .cors(cors -> cors.disable()); // Deshabilitar CORS si es necesario
