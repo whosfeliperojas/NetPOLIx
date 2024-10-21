@@ -1,0 +1,50 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/gerente")
+public class GerenteController {
+
+    @Autowired
+    private ContenidoDAO contenidoDAO;
+
+    @Autowired
+    private ContenidoAlquiladoDAO contenidoAlquiladoDAO;
+
+    private Gerente gerente;
+
+    // Constructor del Gerente (se puede cambiar a inyección de dependencias si se requiere)
+    public GerenteController() {
+        this.gerente = new Gerente(1L, "Gerente1", "gerente1@example.com", "password123");
+    }
+
+    // Agregar un contenido
+    @PostMapping("/contenido")
+    public void agregarContenido(@RequestBody Contenido contenido) {
+        gerente.agregarContenido(contenidoDAO, contenido);
+    }
+
+    // Eliminar un contenido
+    @DeleteMapping("/contenido/{id}")
+    public void eliminarContenido(@PathVariable Long id) {
+        gerente.eliminarContenido(contenidoDAO, id);
+    }
+
+    // Editar un contenido
+    @PutMapping("/contenido/{id}")
+    public void editarContenido(@PathVariable Long id, @RequestBody Contenido nuevoContenido) {
+        gerente.editarContenido(contenidoDAO, id, nuevoContenido);
+    }
+
+    // Ajustar el precio de alquiler de un contenido
+    @PutMapping("/contenido/{id}/precio")
+    public void ajustarPrecio(@PathVariable Long id, @RequestParam double nuevoPrecio) {
+        gerente.ajustarPrecio(contenidoAlquiladoDAO, id, nuevoPrecio);
+    }
+
+    // Ajustar el plazo de alquiler de un contenido
+    @PutMapping("/contenido/{id}/plazo")
+    public void ajustarPlazo(@PathVariable Long id, @RequestParam int nuevoPlazo) {
+        gerente.ajustarPlazo(contenidoAlquiladoDAO, id, nuevoPlazo);
+    }
+}
