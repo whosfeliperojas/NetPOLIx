@@ -1,0 +1,55 @@
+import jakarta.persistence.*;
+
+@Entity
+public class ContenidoAlquilado {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long idContenido;  // Referencia al contenido
+    private double precio;
+    private int plazoDias;  // Plazo del alquiler en días
+
+    // Constructor
+    public ContenidoAlquilado() {}
+
+    public ContenidoAlquilado(Long idContenido, double precio, int plazoDias) {
+        this.idContenido = idContenido;
+        this.precio = precio;
+        this.plazoDias = plazoDias;
+    }
+
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getIdContenido() {
+        return idContenido;
+    }
+
+    public void setIdContenido(Long idContenido) {
+        this.idContenido = idContenido;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public int getPlazoDias() {
+        return plazoDias;
+    }
+
+    public void setPlazoDias(int plazoDias) {
+        this.plazoDias = plazoDias;
+    }
+}
