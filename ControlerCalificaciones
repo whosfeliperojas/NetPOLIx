@@ -1,0 +1,49 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/contenidos")
+public class ContenidoController {
+
+    @Autowired
+    private ContenidoDAO contenidoDAO;
+
+    // Obtener todos los contenidos
+    @GetMapping
+    public List<Contenido> obtenerContenidos() {
+        return contenidoDAO.obtenerContenidos();
+    }
+
+    // Obtener un contenido por su ID
+    @GetMapping("/{id}")
+    public Contenido obtenerContenido(@PathVariable Long id) {
+        return contenidoDAO.obtenerContenidoPorId(id);
+    }
+
+    // Actualizar un contenido
+    @PutMapping("/{id}")
+    public void actualizarContenido(@PathVariable Long id, @RequestBody Contenido contenidoActualizado) {
+        Contenido contenido = contenidoDAO.obtenerContenidoPorId(id);
+        if (contenido != null) {
+            contenido.setTitulo(contenidoActualizado.getTitulo());
+            contenido.setGenero(contenidoActualizado.getGenero());
+            contenido.setAnio(contenidoActualizado.getAnio());
+            contenido.setCalificacionPromedio(contenidoActualizado.getCalificacionPromedio());
+            contenidoDAO.actualizarContenido(contenido);
+        }
+    }
+
+    // Permitir a un usuario calificar un contenido
+    @PostMapping("/{id}/calificar")
+    public void calificarContenido(@PathVariable Long id, @RequestParam double calificacion) {
+        contenidoDAO.calificarContenido(id, calificacion);
+    }
+
+    // Agregar un nuevo contenido
+    @PostMapping
+    public void agregarContenido(@RequestBody Contenido contenido) {
+        contenidoDAO.actualizarContenido(contenido);
+    }
+}
